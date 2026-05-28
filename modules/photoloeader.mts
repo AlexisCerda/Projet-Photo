@@ -1,4 +1,4 @@
-import { API, Photo, reponsePhoto } from "./config.mts";
+import { API, reponsePhoto } from "./config.mts";
 
 
 export async function loadPicture(idPicture: number) {
