@@ -17,8 +17,15 @@
       <p><strong>Description :</strong> {{photo.descr}}</p>
       <p><strong>Format :</strong> {{photo.format}}</p>
       <p><strong>Taille :</strong> {{photo.size}} px</p>
-      <div class="links">
-        <a href="{{links.categorie.href}}">Voir la catégorie</a>
+      
+      <div class="categorie-section">
+        <h5>Catégorie :</h5>
+        {{#if categorie}}
+          <p><strong>{{categorie.titre}}</strong></p>
+          <p>{{categorie.descr}}</p>
+        {{else}}
+          <a href="{{links.categorie.href}}">Voir la catégorie</a>
+        {{/if}}
       </div>
       
       <div class="comments-section">
