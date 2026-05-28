@@ -5738,13 +5738,11 @@
     }
   });
 
-  // index.ts
-  var import_handlebars = __toESM(require_handlebars(), 1);
-
-  // config.mts
+  // modules/config.mts
   var API = "https://webetu.iutnc.univ-lorraine.fr/www/canals5/phox/api";
+  var API_LOW = "https://webetu.iutnc.univ-lorraine.fr";
 
-  // photoloeader.mts
+  // modules/photoloeader.mts
   async function loadPicture(idPicture) {
     try {
       const response = await fetch(API + `/photos/${idPicture}`, { credentials: "include" });
@@ -5756,18 +5754,23 @@
     }
   }
 
-  // index.ts
+  // modules/ui.mts
+  var import_handlebars = __toESM(require_handlebars(), 1);
   var mainSection = document.getElementById("photo");
-  async function getPicture(idPicture) {
-    const resphoto = await loadPicture(idPicture);
-    const photo = resphoto?.photo;
+  async function displayPicture(repPhoto) {
+    const photo = repPhoto?.photo;
     if (!photo && photo == void 0) {
-      console.error(`Photo ${idPicture} introuvable.`);
+      console.error(`Photo introuvable.`);
       return;
     }
     const template1 = document.getElementById("template1")?.innerHTML;
     const template1Final = import_handlebars.default.compile(template1);
     if (mainSection) {
+      const repComment = await fetch(API_LOW + repPhoto.links.comments.href);
+      console.log(API_LOW + repPhoto.links.comments.href);
+      const comment = await repComment.json();
+      const repCategorie = await fetch(API_LOW + repPhoto.links.categorie.href);
+      const categ = await repCategorie.json();
       mainSection.innerHTML = template1Final({
         id: photo.id,
         url: photo.url,
@@ -5777,12 +5780,23 @@
         descr: photo.descr,
         format: photo.format,
         size: photo.size,
-        categorie: photo.categorie,
-        comments: photo.comments,
-        links: photo.links
+        links: API_LOW + repPhoto.links.categorie.href,
+        categorie: categ.categories,
+        comments: comment.comments
       });
     }
     window.location.hash = "" + photo.id;
+  }
+
+  // ts/index.ts
+  async function getPicture(idPicture) {
+    const resphoto = await loadPicture(idPicture);
+    if (resphoto !== void 0) {
+      displayPicture(resphoto);
+    } else {
+      console.error(`Photo introuvable.`);
+      return;
+    }
   }
   getPicture(105);
 })();

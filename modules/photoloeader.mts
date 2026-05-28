@@ -10,7 +10,7 @@ export async function loadPicture(idPicture: number) {
     } catch (err: any) {
         console.log(err.message);
     }
-
+                                                                                                                                                                                                         
 
 
 
