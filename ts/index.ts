@@ -1,10 +1,10 @@
 import Handlebars from "handlebars";
-import { loadPicture } from "./photoloeader.mts";
-import { Photo, reponsePhoto } from "./config.mts";
+import { loadPicture } from "../modules/photoloeader.mts";
+import { Photo, reponsePhoto } from "../modules/config.mts";
 
 let mainSection = document.getElementById("photo");
 
-async function afficherPhoto(idPicture: number) {
+async function getPicture(idPicture: number) {
   const resphoto: reponsePhoto | undefined = await loadPicture(idPicture);
   const photo = resphoto?.photo;
   if (!photo && photo == undefined) {
@@ -30,6 +30,9 @@ async function afficherPhoto(idPicture: number) {
       links: photo.links,
     });
   }
+
+    window.location.hash = "" + photo.id;
+  
 }
-afficherPhoto(39);
+getPicture(105);
 //getPicture(window.location.hash ? window.location.hash.substr(1) : 105);
