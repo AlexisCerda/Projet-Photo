@@ -5773,7 +5773,9 @@
   var currentData = {};
   function updateHTML() {
     const template1 = document.getElementById("photoTemplate")?.innerHTML;
-    if (!template1) return;
+    if (!template1 || template1 === void 0) {
+      return;
+    }
     const template1Final = import_handlebars.default.compile(template1);
     let mainSection = document.getElementById("photo");
     if (mainSection) {
@@ -5800,14 +5802,11 @@
     updateHTML();
   }
   async function displayCateg(repPhoto) {
-    if (!repPhoto?.links?.categorie?.href) return;
-    const repCategorie = await fetch(API_LOW + repPhoto.links.categorie.href);
-    const categ = await repCategorie.json();
+    const categ = await loadResource(API_LOW + repPhoto.links.categorie.href);
     currentData.categorie = categ.categorie;
     updateHTML();
   }
   async function displayComment(repPhoto) {
-    if (!repPhoto?.links?.comments?.href) return;
     const comment = await loadResource(API_LOW + repPhoto.links.comments.href);
     currentData.comments = comment.comments;
     updateHTML();
