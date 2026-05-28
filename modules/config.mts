@@ -1,4 +1,5 @@
 export const API : string = "https://webetu.iutnc.univ-lorraine.fr/www/canals5/phox/api";
+export const API_LOW : string = "https://webetu.iutnc.univ-lorraine.fr";
 export interface Photo {
     id: number,
     titre: string,
