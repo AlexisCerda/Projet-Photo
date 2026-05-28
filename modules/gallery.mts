@@ -1,4 +1,4 @@
-import { API, reponsePhotos } from "./config.mts";
+import { API, API_LOW, reponsePhotos } from "./config.mts";
 import { loadResource } from "./photoloeader.mts";
 
 let currentGallery: reponsePhotos | null = null;
@@ -7,22 +7,27 @@ let prevGallery: reponsePhotos | null = null;
 let firstGallery: reponsePhotos | null = null;
 let lastGallery: reponsePhotos | null = null;
 
+function buildUrl(href?: string): string {
+    if (!href) return `${API}/photos`;
+    if (href.startsWith('http')) return href;
+    return `${API_LOW}${href}`;
+}
 
 export async function load(uri?: string): Promise<reponsePhotos> {
   const target = uri ?? `${API}/photos`;
   const galerie = await loadResource<reponsePhotos>(target);
   currentGallery = galerie;
 
-  const targetNext = currentGallery?.links?.next?.href ?? `${API}/photos`;
+  const targetNext = buildUrl(currentGallery?.links?.next?.href);
   nextGallery = await loadResource<reponsePhotos>(targetNext);
 
-  const targetPrev = currentGallery?.links?.prev?.href ?? `${API}/photos`;
+  const targetPrev = buildUrl(currentGallery?.links?.prev?.href);
   prevGallery = await loadResource<reponsePhotos>(targetPrev);
 
-  const targetFirst = currentGallery?.links?.first?.href ?? `${API}/photos`;
+  const targetFirst = buildUrl(currentGallery?.links?.first?.href);
   firstGallery = await loadResource<reponsePhotos>(targetFirst);
   
-  const targetLast = currentGallery?.links?.last?.href ?? `${API}/photos`;
+  const targetLast = buildUrl(currentGallery?.links?.last?.href);
   lastGallery = await loadResource<reponsePhotos>(targetLast);
 
   return galerie;

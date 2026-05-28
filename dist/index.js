@@ -1,6 +1,7 @@
 (() => {
   // modules/config.mts
   var API = "https://webetu.iutnc.univ-lorraine.fr/www/canals5/phox/api";
+  var API_LOW = "https://webetu.iutnc.univ-lorraine.fr";
   var API_IMAGE = "https://webetu.iutnc.univ-lorraine.fr/";
 
   // modules/photoloeader.mts
@@ -24,17 +25,22 @@
   var prevGallery = null;
   var firstGallery = null;
   var lastGallery = null;
+  function buildUrl(href) {
+    if (!href) return `${API}/photos`;
+    if (href.startsWith("http")) return href;
+    return `${API_LOW}${href}`;
+  }
   async function load(uri) {
     const target = uri ?? `${API}/photos`;
     const galerie = await loadResource(target);
     currentGallery = galerie;
-    const targetNext = currentGallery?.links?.next?.href ?? `${API}/photos`;
+    const targetNext = buildUrl(currentGallery?.links?.next?.href);
     nextGallery = await loadResource(targetNext);
-    const targetPrev = currentGallery?.links?.prev?.href ?? `${API}/photos`;
+    const targetPrev = buildUrl(currentGallery?.links?.prev?.href);
     prevGallery = await loadResource(targetPrev);
-    const targetFirst = currentGallery?.links?.first?.href ?? `${API}/photos`;
+    const targetFirst = buildUrl(currentGallery?.links?.first?.href);
     firstGallery = await loadResource(targetFirst);
-    const targetLast = currentGallery?.links?.last?.href ?? `${API}/photos`;
+    const targetLast = buildUrl(currentGallery?.links?.last?.href);
     lastGallery = await loadResource(targetLast);
     return galerie;
   }
