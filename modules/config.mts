@@ -36,3 +36,22 @@ export interface reponseComment {
   nombre : number,
   comments : Comment[],
 }
+
+export interface Categorie {
+  id : number,
+  nom :string,
+  descr :string,
+}
+
+export interface reponseCategorie {
+  type : String,
+  count : number,
+  categories : {
+    categorie : Categorie,
+    links : {
+      photos : {
+        href : string,
+      }[];
+    }
+  }[],
+}
