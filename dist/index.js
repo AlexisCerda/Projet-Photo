@@ -20,10 +20,20 @@
 
   // modules/gallery.mts
   var currentGallery = null;
+  var nextGallery = null;
+  var prevGallery = null;
   async function load(uri) {
     const target = uri ?? `${API}/photos`;
     const galerie = await loadResource(target);
     currentGallery = galerie;
+    const targetNext = currentGallery?.links?.next?.href ?? `${API}/photos`;
+    nextGallery = await loadResource(targetNext);
+    const targetPrev = currentGallery?.links?.prev?.href ?? `${API}/photos`;
+    prevGallery = await loadResource(targetPrev);
+    const targetFirst = currentGallery?.links?.first?.href ?? `${API}/photos`;
+    prevGallery = await loadResource(targetFirst);
+    const targetLast = currentGallery?.links?.last?.href ?? `${API}/photos`;
+    prevGallery = await loadResource(targetLast);
     return galerie;
   }
 

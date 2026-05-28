@@ -20,10 +20,10 @@ export async function load(uri?: string): Promise<reponsePhotos> {
   prevGallery = await loadResource<reponsePhotos>(targetPrev);
 
   const targetFirst = currentGallery?.links?.first?.href ?? `${API}/photos`;
-  prevGallery = await loadResource<reponsePhotos>(targetFirst);
+  firstGallery = await loadResource<reponsePhotos>(targetFirst);
   
   const targetLast = currentGallery?.links?.last?.href ?? `${API}/photos`;
-  prevGallery = await loadResource<reponsePhotos>(targetLast);
+  lastGallery = await loadResource<reponsePhotos>(targetLast);
 
   return galerie;
 }

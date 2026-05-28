@@ -6,7 +6,10 @@ let currentData: any = {};
 
 function updateHTML() {
     const template1 = document.getElementById("photoTemplate")?.innerHTML;
-    if (!template1) return;
+    if (!template1 || template1 === undefined){
+        return;
+    }
+
     const template1Final = Handlebars.compile(template1);
     let mainSection = document.getElementById("photo");
     if (mainSection) {
@@ -37,20 +40,13 @@ export async function displayPicture(repPhoto: reponsePhoto) {
 }
 
 export async function displayCateg(repPhoto: reponsePhoto) {
-    if (!repPhoto?.links?.categorie?.href) return;
-
-    const repCategorie = await fetch(API_LOW + repPhoto.links.categorie.href);
-    const categ: reponseCategorie = await repCategorie.json();
-
+    const categ = await loadResource(API_LOW + repPhoto.links.categorie.href);
     currentData.categorie = categ.categorie;
     updateHTML();
 }
 
 export async function displayComment(repPhoto: reponsePhoto) {
-    if (!repPhoto?.links?.comments?.href) return;
-
     const comment = await loadResource(API_LOW + repPhoto.links.comments.href);
-
     currentData.comments = comment.comments;
     updateHTML();
 }
