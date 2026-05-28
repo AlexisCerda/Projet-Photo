@@ -1,4 +1,4 @@
-import { API_LOW, Photo, reponseCategorie, reponseComment, reponsePhoto } from "./config.mts";
+import { API_IMAGE, API_LOW, Photo, reponseCategorie, reponseComment, reponsePhoto } from "./config.mts";
 import Handlebars from "handlebars";
 
 let mainSection = document.getElementById("photo");
@@ -24,10 +24,9 @@ export async function displayPicture(repPhoto: reponsePhoto) {
 
         console.log(categ.categorie);
 
-
         mainSection.innerHTML = template1Final({
             id: photo.id,
-            url: photo.url,
+            url: API_IMAGE + photo.url.href,
             width: photo.width,
             height: photo.height,
             titre: photo.titre,

@@ -5741,6 +5741,7 @@
   // modules/config.mts
   var API = "https://webetu.iutnc.univ-lorraine.fr/www/canals5/phox/api";
   var API_LOW = "https://webetu.iutnc.univ-lorraine.fr";
+  var API_IMAGE = "https://webetu.iutnc.univ-lorraine.fr/";
 
   // modules/photoloeader.mts
   async function loadPicture(idPicture) {
@@ -5771,9 +5772,10 @@
       const repCategorie = await fetch(API_LOW + repPhoto.links.categorie.href);
       const categ = await repCategorie.json();
       console.log(categ.categorie);
+      console.log("CACACACA " + API_IMAGE + photo.url.href);
       mainSection.innerHTML = template1Final({
         id: photo.id,
-        url: photo.url,
+        url: API_IMAGE + photo.url.href,
         width: photo.width,
         height: photo.height,
         titre: photo.titre,
