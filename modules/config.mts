@@ -44,7 +44,18 @@ export interface Categorie {
   descr :string,
 }
 
-export interface reponseCategorie {
+export interface reponseCategorie{
+  type : string,
+  categorie : Categorie
+  links : {
+    photos : {
+      href : string
+    }
+  }
+}
+
+
+export interface tableauCategorie {
   type : String,
   count : number,
   categories : {

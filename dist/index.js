@@ -5767,10 +5767,10 @@
     const template1Final = import_handlebars.default.compile(template1);
     if (mainSection) {
       const repComment = await fetch(API_LOW + repPhoto.links.comments.href);
-      console.log(API_LOW + repPhoto.links.comments.href);
       const comment = await repComment.json();
       const repCategorie = await fetch(API_LOW + repPhoto.links.categorie.href);
       const categ = await repCategorie.json();
+      console.log(categ.categorie);
       mainSection.innerHTML = template1Final({
         id: photo.id,
         url: photo.url,
@@ -5781,7 +5781,7 @@
         format: photo.format,
         size: photo.size,
         links: API_LOW + repPhoto.links.categorie.href,
-        categorie: categ.categories,
+        categorie: categ.categorie,
         comments: comment.comments
       });
     }

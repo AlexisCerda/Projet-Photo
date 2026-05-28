@@ -12,20 +12,19 @@
 
   <script id="template1" type="text/x-handlebars-template">
     <div class="photo-item" id="photo-{{photo.id}}">
-      <h4>{{photo.titre}}</h4>
-      <img src="{{photo.url.href}}" alt="{{photo.titre}}" width="{{photo.width}}" height="{{photo.height}}">
-      <p><strong>Description :</strong> {{photo.descr}}</p>
-      <p><strong>Format :</strong> {{photo.format}}</p>
-      <p><strong>Taille :</strong> {{photo.size}} px</p>
+      <h4>{{titre}}</h4>
+      <img src="{{url}}" alt="{{titre}}" width="{{width}}" height="{{height}}">
+      <p><strong>Description :</strong> {{descr}}</p>
+      <p><strong>Format :</strong> {{format}}</p>
+      <p><strong>Taille :</strong> {{size}} px</p>
       
       <div class="categorie-section">
         <h5>Catégorie :</h5>
-        {{#if categorie}}
-          <p><strong>{{categorie.titre}}</strong></p>
-          <p>{{categorie.descr}}</p>
-        {{else}}
+        <li>
+          <p><strong>{{categorie.nom}}</strong></p>
+           <p>{{categorie.descr}}</p>
+        </li>
           <a href="{{links}}">Voir la catégorie</a>
-        {{/if}}
       </div>
       
       <div class="comments-section">
