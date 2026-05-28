@@ -27,7 +27,7 @@ export async function loadResource<T = any>(uri: string): Promise<T> {
     return data;
 
   } catch (err: any) {
-        console.log(err.message);
+        console.error(err.message);
          // pour ne pas rien renvoyer
         throw err;
         
