@@ -1,37 +1,35 @@
 import Handlebars from "handlebars";
-import { loadPicture, Photo } from "./photoloeader.mts";
+import { loadPicture } from "./photoloeader.mts";
+import { Photo, reponsePhoto } from "./config.mts";
 
- let mainSection = document.getElementById("la_photo");
+let mainSection = document.getElementById("photo");
 
-async function afficherPhoto(idPicture : number){
-    const photo = await loadPicture(idPicture);
-    
-    if (!photo) {
-        console.error(`Photo ${idPicture} introuvable.`);
-        return;
-    }
+async function afficherPhoto(idPicture: number) {
+  const resphoto: reponsePhoto | undefined = await loadPicture(idPicture);
+  const photo = resphoto?.photo;
+  if (!photo && photo == undefined) {
+    console.error(`Photo ${idPicture} introuvable.`);
+    return;
+  }
 
-    const template1 = document.getElementById('template1')?.innerHTML;
-    const template1Final = Handlebars.compile(template1);
+  const template1 = document.getElementById("template1")?.innerHTML;
+  const template1Final = Handlebars.compile(template1);
 
-    if (mainSection) {
-                mainSection.innerHTML = template1Final({
-                    id: photo.id,
-                    url: photo.url,
-                    width : photo.width,
-                    height: photo.height,
-                    titre: photo.titre,
-                    descr: photo.descr,
-                    format: photo.format,
-                    size : photo.size,
-                    categorie: photo.categorie,
-                    comments : photo.comments,
-                    links : photo.links,
-                });
-            }
-   
+  if (mainSection) {
+    mainSection.innerHTML = template1Final({
+      id: photo.id,
+      url: photo.url,
+      width: photo.width,
+      height: photo.height,
+      titre: photo.titre,
+      descr: photo.descr,
+      format: photo.format,
+      size: photo.size,
+      categorie: photo.categorie,
+      comments: photo.comments,
+      links: photo.links,
+    });
+  }
 }
-
-
-
+afficherPhoto(39);
 //getPicture(window.location.hash ? window.location.hash.substr(1) : 105);

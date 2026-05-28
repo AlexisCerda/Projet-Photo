@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/handlebars": "^4.0.40",
     "esbuild": "0.25.12"
   },
   "scripts": {
