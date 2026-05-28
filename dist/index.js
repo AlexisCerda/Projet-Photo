@@ -8,13 +8,13 @@
     try {
       const response = await fetch(uri);
       if (!response.ok) {
-        throw new Error(`Erreur ${response.status} sur ${uri}`);
+        throw new Error(`Erreur sur ${uri}`);
       }
       const data = await response.json();
       return data;
-    } catch (error) {
-      console.error("Erreur loadResource :", error);
-      throw error;
+    } catch (err) {
+      console.log(err.message);
+      throw err;
     }
   }
 
@@ -38,14 +38,13 @@
     const list = document.createElement("ul");
     list.className = "gallery-list";
     galerie.photos.forEach((item) => {
-      const { photo } = item;
+      const photo = item.photo;
       const li = document.createElement("li");
       li.className = "gallery-item";
-      li.dataset.photoId = String(photo.id);
+      li.dataset.photoId = "" + photo.id;
       const img = document.createElement("img");
       img.src = API_IMAGE + photo.thumbnail.href;
       img.alt = photo.titre;
-      img.loading = "lazy";
       const title = document.createElement("p");
       title.className = "gallery-title";
       title.textContent = photo.titre;

@@ -13,17 +13,16 @@ export function display_galerie(galerie: reponsePhotos) {
   list.className = "gallery-list";
 
   galerie.photos.forEach((item) => {
-    const { photo } = item;
+    const photo = item.photo;
 
     const li = document.createElement("li");
     li.className = "gallery-item";
-    li.dataset.photoId = String(photo.id);
+    li.dataset.photoId = ""+photo.id;
 
     const img = document.createElement("img");
     img.src = API_IMAGE + photo.thumbnail.href;
     img.alt = photo.titre;
-    img.loading = "lazy";
-
+    
     const title = document.createElement("p");
     title.className = "gallery-title";
     title.textContent = photo.titre;
