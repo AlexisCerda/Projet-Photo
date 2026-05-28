@@ -23,3 +23,16 @@ export interface reponsePhoto {
     },
   },
 }
+
+export interface Comment {
+  titre : string,
+  content : string,
+  pseudo : string,
+  created_at : string,
+}
+
+export interface reponseComment {
+  type :string,
+  nombre : number,
+  comments : Comment[],
+}
