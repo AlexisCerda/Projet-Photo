@@ -1,22 +1,18 @@
 
-import { loadPicture } from "../modules/photoloeader.mts";
-import { Photo, reponsePhoto } from "../modules/config.mts";
-import { displayCateg, displayComment, displayPicture } from "../modules/ui.mts";
+import { load } from "../modules/gallery.mts";
+import { display_galerie } from "../modules/gallery_ui.mts";
 
+const loadButton = document.getElementById("load-gallery");
 
-
-async function getPicture(idPicture: number) {
-  const resphoto: reponsePhoto | undefined = await loadPicture(idPicture);
-  
-  if(resphoto !== undefined){
-    displayPicture(resphoto);
-    displayCateg(resphoto);
-    displayComment(resphoto);
-  }else{
-     console.error(`Photo introuvable.`);
-      return;
-  } 
+if (loadButton) {
+  loadButton.addEventListener("click", async () => {
+    try {
+      const galerie = await load();
+      display_galerie(galerie);
+    } catch (error) {
+      console.error("Impossible de charger la galerie.", error);
+    }
+  });
+} else {
+  console.warn("Bouton de chargement introuvable.");
 }
-
-getPicture(105);
-//getPicture(window.location.hash ? window.location.hash.substr(1) : 105);

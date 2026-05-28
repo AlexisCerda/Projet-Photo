@@ -25,6 +25,39 @@ export interface reponsePhoto {
     },
   },
 }
+export interface PhotoGalerie {
+    photo: {
+        id: number;
+        titre: string;
+        file: string;
+        thumbnail: { href: string };
+        original: { href: string };
+    };
+    links: {
+        self: { href: string };
+    };
+}
+
+export interface reponsePhotos {
+  type: string,
+  count: number,
+  size?: number,
+  photos: PhotoGalerie[],
+  links?: {
+    first?: {
+      href: string,
+    },
+    last?: {
+      href: string,
+    },
+    next?: {
+      href: string,
+    },
+    prev?: {
+      href: string,
+    },
+  },
+}
 
 export interface Comment {
   titre : string,
