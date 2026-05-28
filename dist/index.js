@@ -5772,7 +5772,7 @@
   var import_handlebars = __toESM(require_handlebars(), 1);
   var currentData = {};
   function updateHTML() {
-    const template1 = document.getElementById("template1")?.innerHTML;
+    const template1 = document.getElementById("photoTemplate")?.innerHTML;
     if (!template1) return;
     const template1Final = import_handlebars.default.compile(template1);
     let mainSection = document.getElementById("photo");

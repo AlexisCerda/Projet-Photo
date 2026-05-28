@@ -5,7 +5,7 @@ import { loadResource } from "./photoloeader.mts";
 let currentData: any = {};
 
 function updateHTML() {
-    const template1 = document.getElementById("template1")?.innerHTML;
+    const template1 = document.getElementById("photoTemplate")?.innerHTML;
     if (!template1) return;
     const template1Final = Handlebars.compile(template1);
     let mainSection = document.getElementById("photo");

@@ -3,47 +3,53 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>index td8 : fetch</title>
+  <title>Photo TD8</title>
   <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-  <section id="photo"></section>
 
-  <script id="template1" type="text/x-handlebars-template">
-    <div class="photo-item" id="photo-{{id}}">
+  <main id="photo"></main>
+  <script id="photoTemplate" type="text/x-handlebars-template">
+
+    <h1>Photo : {{id}}</h1>
+
+    <section id="la_photo">
+
+      <img src="{{url}}" alt="{{titre}}">
+
       <h4>{{titre}}</h4>
-      <img src="{{url}}" alt="{{titre}}" width="{{width}}" height="{{height}}">
-      <p><strong>Description :</strong> {{descr}}</p>
-      <p><strong>Format :</strong> {{format}}</p>
-      <p><strong>Taille :</strong> {{size}} px</p>
-      
-      <div class="categorie-section">
-        <h5>Catégorie :</h5>
-        <li>
-          <p><strong>{{categorie.nom}}</strong></p>
-           <p>{{categorie.descr}}</p>
-        </li>
-      </div>
-      
-      <div class="comments-section">
-        <h5>Commentaires ({{comments.length}}) :</h5>
-        <ul>
-          {{#each comments}}
-            <li>
-              <strong>{{titre}}</strong> de <em>{{pseudo}}</em> le <span>{{created_at}}</span>
-              <p>{{content}}</p>
-            </li>
-          {{else}}
-            <li>Aucun commentaire pour cette photo.</li>
-          {{/each}}
-        </ul>
-      </div>
-    </div>
+
+      <p>{{descr}}</p>
+
+      <p>{{format}}, {{width}} x {{height}}</p>
+
+      <h4 id="la_categorie">
+        Catégorie :
+        {{categorie.nom}}
+      </h4>
+
+      <p>{{categorie.descr}}</p>
+
+      <h4>Commentaires :</h4>
+
+      <ul id="les_commentaires">
+        {{#each comments}}
+          <li>
+            <strong>{{pseudo}}</strong> :
+            {{content}}
+          </li>
+        {{else}}
+          <li>Aucun commentaire</li>
+        {{/each}}
+      </ul>
+
+    </section>
+
   </script>
 
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  <script src='dist/index.js' defer></script>
-</body>
+  <script src="https://unpkg.com/handlebars@latest/dist/handlebars.min.js"></script>
+  <script src="dist/index.js" defer></script>
 
+</body>
 </html>
