@@ -17,11 +17,12 @@ export async function displayPicture(repPhoto: reponsePhoto) {
     if (mainSection) {
 
         const repComment = await fetch(API_LOW + repPhoto.links.comments.href);
-        console.log(API_LOW + repPhoto.links.comments.href);
         const comment: reponseComment = await repComment.json();
 
         const repCategorie = await fetch(API_LOW + repPhoto.links.categorie.href);
         const categ: reponseCategorie = await repCategorie.json();
+
+        console.log(categ.categorie);
 
 
         mainSection.innerHTML = template1Final({
@@ -35,7 +36,7 @@ export async function displayPicture(repPhoto: reponsePhoto) {
             size: photo.size,
             links: API_LOW + repPhoto.links.categorie.href,
 
-            categorie: categ.categories,
+            categorie: categ.categorie,
             comments: comment.comments,
         });
     }
