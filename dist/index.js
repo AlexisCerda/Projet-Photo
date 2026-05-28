@@ -5758,7 +5758,7 @@
 
   // index.ts
   var mainSection = document.getElementById("photo");
-  async function afficherPhoto(idPicture) {
+  async function getPicture(idPicture) {
     const resphoto = await loadPicture(idPicture);
     const photo = resphoto?.photo;
     if (!photo && photo == void 0) {
@@ -5782,7 +5782,8 @@
         links: photo.links
       });
     }
+    window.location.hash = "" + photo.id;
   }
-  afficherPhoto(39);
+  getPicture(105);
 })();
 //# sourceMappingURL=index.js.map
