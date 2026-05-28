@@ -54,10 +54,7 @@
       const img = document.createElement("img");
       img.src = API_IMAGE + photo.thumbnail.href;
       img.alt = photo.titre;
-      const title = document.createElement("p");
-      title.className = "gallery-title";
-      title.textContent = photo.titre;
-      li.append(img, title);
+      li.append(img);
       list.appendChild(li);
     });
     container.appendChild(list);
