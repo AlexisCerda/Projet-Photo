@@ -21,28 +21,19 @@
 
   // modules/gallery.mts
   var currentGallery = null;
-  var nextGallery = null;
-  var prevGallery = null;
-  var firstGallery = null;
-  var lastGallery = null;
   function buildUrl(href) {
     if (!href) return `${API}/photos`;
     if (href.startsWith("http")) return href;
     return `${API_LOW}${href}`;
   }
   async function load(uri) {
-    const target = uri ?? `${API}/photos`;
+    const target = buildUrl(uri);
     const galerie = await loadResource(target);
     currentGallery = galerie;
-    const targetNext = buildUrl(currentGallery?.links?.next?.href);
-    nextGallery = await loadResource(targetNext);
-    const targetPrev = buildUrl(currentGallery?.links?.prev?.href);
-    prevGallery = await loadResource(targetPrev);
-    const targetFirst = buildUrl(currentGallery?.links?.first?.href);
-    firstGallery = await loadResource(targetFirst);
-    const targetLast = buildUrl(currentGallery?.links?.last?.href);
-    lastGallery = await loadResource(targetLast);
     return galerie;
+  }
+  function getCurrentGallery() {
+    return currentGallery;
   }
 
   // modules/gallery_ui.mts
@@ -74,10 +65,17 @@
 
   // ts/index.ts
   var loadButton = document.getElementById("load-gallery");
+  var nextButton = document.getElementById("Nload-gallery");
+  var previousButton = document.getElementById("Pload-gallery");
+  var firstButton = document.getElementById("Fload-gallery");
+  var lastButton = document.getElementById("Lload-gallery");
   if (loadButton) {
     loadButton.addEventListener("click", async () => {
       try {
-        const galerie = await load();
+        var galerie = getCurrentGallery();
+        if (!galerie) {
+          galerie = await load();
+        }
         display_galerie(galerie);
       } catch (error) {
         console.error("Impossible de charger la galerie.", error);
@@ -85,6 +83,74 @@
     });
   } else {
     console.warn("Bouton de chargement introuvable.");
+  }
+  if (nextButton) {
+    nextButton.addEventListener("click", async () => {
+      try {
+        const current = getCurrentGallery();
+        if (current && current.links?.next?.href) {
+          const newGalerie = await load(current.links.next.href);
+          display_galerie(newGalerie);
+        } else {
+          console.warn("Il n'y a pas de page suivante ou la galerie n'a pas encore \xE9t\xE9 charg\xE9e initialement.");
+        }
+      } catch (error) {
+        console.error("Impossible de charger la galerie suivante.", error);
+      }
+    });
+  } else {
+    console.warn("Bouton de chargement suivant introuvable.");
+  }
+  if (previousButton) {
+    previousButton.addEventListener("click", async () => {
+      try {
+        const current = getCurrentGallery();
+        if (current && current.links?.prev?.href) {
+          const newGalerie = await load(current.links.prev.href);
+          display_galerie(newGalerie);
+        } else {
+          console.warn("Il n'y a pas de page pr\xE9c\xE9dente ou la galerie n'a pas encore \xE9t\xE9 charg\xE9e initialement.");
+        }
+      } catch (error) {
+        console.error("Impossible de charger la galerie pr\xE9c\xE9dente.", error);
+      }
+    });
+  } else {
+    console.warn("Bouton de chargement pr\xE9c\xE9dent introuvable.");
+  }
+  if (firstButton) {
+    firstButton.addEventListener("click", async () => {
+      try {
+        const current = getCurrentGallery();
+        if (current && current.links?.first?.href) {
+          const newGalerie = await load(current.links.first.href);
+          display_galerie(newGalerie);
+        } else {
+          console.warn("Il n'y a pas de premi\xE8re page ou la galerie n'a pas encore \xE9t\xE9 charg\xE9e initialement.");
+        }
+      } catch (error) {
+        console.error("Impossible de charger la premi\xE8re page.", error);
+      }
+    });
+  } else {
+    console.warn("Bouton de chargement premi\xE8re page introuvable.");
+  }
+  if (lastButton) {
+    lastButton.addEventListener("click", async () => {
+      try {
+        const current = getCurrentGallery();
+        if (current && current.links?.last?.href) {
+          const newGalerie = await load(current.links.last.href);
+          display_galerie(newGalerie);
+        } else {
+          console.warn("Il n'y a pas de derni\xE8re page ou la galerie n'a pas encore \xE9t\xE9 charg\xE9e initialement.");
+        }
+      } catch (error) {
+        console.error("Impossible de charger la derni\xE8re page.", error);
+      }
+    });
+  } else {
+    console.warn("Bouton de chargement derni\xE8re page introuvable.");
   }
 })();
 //# sourceMappingURL=index.js.map
