@@ -51,7 +51,7 @@ export interface reponseCategorie {
     links : {
       photos : {
         href : string,
-      }[];
+      };
     }
   }[],
 }
