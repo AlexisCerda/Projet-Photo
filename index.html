@@ -11,15 +11,29 @@
   <section id="photo"></section>
 
   <script id="template1" type="text/x-handlebars-template">
-    <div class="photo-item" id="photo-{{id}}">
-      <h4>{{titre}}</h4>
-      <img src="{{url}}" alt="{{titre}}" width="{{width}}" height="{{height}}">
-      <p><strong>Description :</strong> {{descr}}</p>
-      <p><strong>Catégorie :</strong> {{categorie}}</p>
-      <p><strong>Format :</strong> {{format}}</p>
-      <p><strong>Taille :</strong> {{size}} px</p>
-      <p><strong>Commentaires :</strong> {{comments}}</p>
-      <a href="{{links}}">Plus d'infos</a>
+    <div class="photo-item" id="photo-{{photo.id}}">
+      <h4>{{photo.titre}}</h4>
+      <img src="{{photo.url.href}}" alt="{{photo.titre}}" width="{{photo.width}}" height="{{photo.height}}">
+      <p><strong>Description :</strong> {{photo.descr}}</p>
+      <p><strong>Format :</strong> {{photo.format}}</p>
+      <p><strong>Taille :</strong> {{photo.size}} px</p>
+      <div class="links">
+        <a href="{{links.categorie.href}}">Voir la catégorie</a>
+      </div>
+      
+      <div class="comments-section">
+        <h5>Commentaires ({{comments.length}}) :</h5>
+        <ul>
+          {{#each comments}}
+            <li>
+              <strong>{{titre}}</strong> de <em>{{pseudo}}</em> le <span>{{created_at}}</span>
+              <p>{{content}}</p>
+            </li>
+          {{else}}
+            <li>Aucun commentaire pour cette photo.</li>
+          {{/each}}
+        </ul>
+      </div>
     </div>
   </script>
 
