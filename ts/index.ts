@@ -1,7 +1,7 @@
 
 import { loadPicture } from "../modules/photoloeader.mts";
 import { Photo, reponsePhoto } from "../modules/config.mts";
-import { displayPicture } from "../modules/ui.mts";
+import { displayCateg, displayComment, displayPicture } from "../modules/ui.mts";
 
 
 
@@ -10,6 +10,8 @@ async function getPicture(idPicture: number) {
   
   if(resphoto !== undefined){
     displayPicture(resphoto);
+    displayCateg(resphoto);
+    displayComment(resphoto);
   }else{
      console.error(`Photo introuvable.`);
       return;

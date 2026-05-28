@@ -5757,7 +5757,6 @@
 
   // modules/ui.mts
   var import_handlebars = __toESM(require_handlebars(), 1);
-  var mainSection = document.getElementById("photo");
   async function displayPicture(repPhoto) {
     const photo = repPhoto?.photo;
     if (!photo && photo == void 0) {
@@ -5766,13 +5765,8 @@
     }
     const template1 = document.getElementById("template1")?.innerHTML;
     const template1Final = import_handlebars.default.compile(template1);
+    let mainSection = document.getElementById("photo");
     if (mainSection) {
-      const repComment = await fetch(API_LOW + repPhoto.links.comments.href);
-      const comment = await repComment.json();
-      const repCategorie = await fetch(API_LOW + repPhoto.links.categorie.href);
-      const categ = await repCategorie.json();
-      console.log(categ.categorie);
-      console.log("CACACACA " + API_IMAGE + photo.url.href);
       mainSection.innerHTML = template1Final({
         id: photo.id,
         url: API_IMAGE + photo.url.href,
@@ -5781,13 +5775,43 @@
         titre: photo.titre,
         descr: photo.descr,
         format: photo.format,
-        size: photo.size,
-        links: API_LOW + repPhoto.links.categorie.href,
-        categorie: categ.categorie,
-        comments: comment.comments
+        size: photo.size
       });
     }
-    window.location.hash = "" + photo.id;
+  }
+  async function displayCateg(repPhoto) {
+    const photo = repPhoto?.photo;
+    if (!photo && photo == void 0) {
+      console.error(`Photo introuvable.`);
+      return;
+    }
+    const template1 = document.getElementById("template1")?.innerHTML;
+    const template1Final = import_handlebars.default.compile(template1);
+    let mainSection = document.getElementById("photo");
+    if (mainSection) {
+      const repCategorie = await fetch(API_LOW + repPhoto.links.categorie.href);
+      const categ = await repCategorie.json();
+      mainSection.innerHTML = template1Final({
+        categorie: categ.categorie
+      });
+    }
+  }
+  async function displayComment(repPhoto) {
+    const photo = repPhoto?.photo;
+    if (!photo && photo == void 0) {
+      console.error(`Photo introuvable.`);
+      return;
+    }
+    const template1 = document.getElementById("template1")?.innerHTML;
+    const template1Final = import_handlebars.default.compile(template1);
+    let mainSection = document.getElementById("photo");
+    if (mainSection) {
+      const repComment = await fetch(API_LOW + repPhoto.links.comments.href);
+      const comment = await repComment.json();
+      mainSection.innerHTML = template1Final({
+        comment: comment.comments
+      });
+    }
   }
 
   // ts/index.ts
@@ -5795,6 +5819,8 @@
     const resphoto = await loadPicture(idPicture);
     if (resphoto !== void 0) {
       displayPicture(resphoto);
+      displayCateg(resphoto);
+      displayComment(resphoto);
     } else {
       console.error(`Photo introuvable.`);
       return;
