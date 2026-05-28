@@ -7,13 +7,19 @@ export interface Photo {
     size: number,
     width: number,
     height: number,
-    url: string,
-    links: string,
-    categorie: string,
-    comments: string,
+    url: {
+      href : string
+    },
 }
 export interface reponsePhoto {
   type : string,
   photo : Photo,
-  links : string,
+  links : {
+    categorie : {
+      href : string,
+    },
+    comments : {
+      href : string,
+    },
+  },
 }
