@@ -41,9 +41,9 @@ export function getPreviousGallery(): reponsePhotos | null {
 }
 
 export function getFirstGallery(): reponsePhotos | null {
-  return prevGallery;
+  return firstGallery;
 }
 
 export function getLastGallery(): reponsePhotos | null {
-  return prevGallery;
+  return lastGallery;
 }
