@@ -22,15 +22,20 @@
   </main>
 
   <div id="lightbox" class="hidden">
-  <h1 id="lb-title"></h1>
 
-  <button id="close">close</button>
-  <button id="prev">prev</button>
+  <button id="close" class="lb-btn lb-close">✕</button>
+  <button id="prev" class="lb-btn lb-prev">‹</button>
 
-  <img id="lightbox-img">
-
-  <button id="next">next</button>
+  <div class="lb-stage">
+    <img id="lightbox-img">
+    <h1 id="lb-title"></h1>
   </div>
+
+  <button id="next" class="lb-btn lb-next">›</button>
+
+</div>
+
+</div>
 
   <script src="dist/index.js" defer></script>
 

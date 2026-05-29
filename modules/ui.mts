@@ -1,6 +1,7 @@
-import { API_IMAGE, API_LOW, Photo, reponseCategorie, reponseComment, reponsePhoto, reponsePhotos } from "./config.mts";
+import { API_IMAGE, API_LOW, Photo, reponseCategorie, reponseComment, reponsePhoto, reponsePhotos, PhotoGalerie } from "./config.mts";
 import Handlebars from "handlebars";
-import { loadResource } from "./photoloeader.mts";
+import { loadPicture, loadResource } from "./photoloeader.mts";
+import { getCurrentGallery } from "./gallery.mts";
 
 // Liste des données dont j'ai besoin pour la lightbox
 
@@ -18,22 +19,23 @@ let title!: HTMLElement;
 // Boutons de la lighBox
 
 const nextButton = document.getElementById('next');
-const prevButton = document.getElementById('next');
-const closeButton = document.getElementById('next');
+const prevButton = document.getElementById('prev');
+const closeButton = document.getElementById('close');
 
 
 // LIstener sur les boutons
 
 closeButton?.addEventListener('click', closeLightbox);
 prevButton?.addEventListener('click', prev);
-nextButton?.addEventListener('click',next);
+nextButton?.addEventListener('click', next);
 
 // Fonction d'initialisation qui va récupérer les éléments html
 
+
 function init() {
-     lightbox = document.getElementById("lightbox")!;
-     img = document.getElementById("lightbox-img") as HTMLImageElement;
-     title = document.getElementById("lb-title")!;
+    lightbox = document.getElementById("lightbox")!;
+    img = document.getElementById("lightbox-img") as HTMLImageElement;
+    title = document.getElementById("lb-title")!;
 }
 
 function updateHTML() {
@@ -65,18 +67,22 @@ export async function displayPicture(repPhoto: reponsePhoto) {
     updateHTML();
 }
 
+// Ouvrir l'interface de la lightbox
 
-export function openLightbox(){
+export function openLightbox() {
     init();
 
-    if (currentPhoto === null){
-        return; 
-    } 
+    if (currentPhoto === null) {
+        return;
+    }
 
+    // On récupère la photo courante 
     const photo = currentPhoto.photo;
-    console.log( API_IMAGE + currentPhoto.photo.url.href);
+    console.log(API_IMAGE + currentPhoto.photo.url.href);
     img.src = API_IMAGE + photo.url.href;
     title.textContent = photo.titre;
+
+    //On affiche
     lightbox.classList.remove("hidden");
 }
 
@@ -85,18 +91,59 @@ function closeLightbox() {
 }
 
 async function next() {
+
+// On augmente l'index et on va recharger la photo avec le bon id
+
     currentIndex += 1;
-    currentPhoto = currentGalerie?.photos[currentIndex].photo;
+    const photo = currentGalerie?.photos[currentIndex]?.photo;
+    if (!photo) return;
+
+    currentPhoto = await loadPicture(photo.id);
+
+    // On refresh l'interface
+
+    refreshLightbox();
+    updateButtons();
 }
 
 async function prev() {
+
+    // On diminue l'index et on va recharger la photo avec le bon id
+
     currentIndex -= 1;
-    currentPhoto = currentGalerie?.photos[currentIndex].photo;
+    const photo = currentGalerie?.photos[currentIndex]?.photo;
+    if (!photo) return;
+
+    currentPhoto = await loadPicture(photo.id);
+    refreshLightbox();
+    updateButtons();
 }
 
-export function setPhoto(rep : reponsePhoto){
+export function setPhoto(rep: reponsePhoto) {
+
+    // On set tous les attributs importants
+
     currentPhoto = rep;
-    currentIndex = currentGalerie?.photos.findIndex((galerie) => galerie.photo.id = galerie.photo.id) ?? 0;
+    currentIndex = currentGalerie?.photos.findIndex((galerie) => galerie.photo.id === rep.photo.id) ?? 0;
+    currentGalerie = getCurrentGallery();
+    updateButtons();
+}
+
+function updateButtons() {
+    if (currentGalerie !== null) {
+
+    // Modifie l'affichage des boutons en fonction de l'index
+
+        prevButton?.classList.toggle("hidden", currentIndex <= 0);
+        nextButton?.classList.toggle("hidden", currentIndex >= currentGalerie.photos.length - 1) 
+    }
+}
+
+function refreshLightbox() {
+    if (currentPhoto !== null) {
+        img.src = API_IMAGE + currentPhoto.photo.url.href;
+        title.textContent = currentPhoto.photo.titre;
+    }
 }
 
 // Fonctions maintenant inutiles
