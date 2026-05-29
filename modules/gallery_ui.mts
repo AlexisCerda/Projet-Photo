@@ -1,6 +1,8 @@
-import { API_IMAGE, reponsePhotos } from "./config.mts";
+import { API_IMAGE, reponsePhoto, reponsePhotos } from "./config.mts";
+import { loadPicture } from "./photoloeader.mts";
+import { displayCateg, displayComment, displayPicture } from "./ui.mts";
 
-export function display_galerie(galerie: reponsePhotos) {
+export async function display_galerie(galerie: reponsePhotos) {
   const container = document.getElementById("gallery");
   if (!container) {
     console.error("Conteneur de galerie introuvable.");
@@ -12,20 +14,32 @@ export function display_galerie(galerie: reponsePhotos) {
   const list = document.createElement("ul");
   list.className = "gallery-list";
 
-  galerie.photos.forEach((item) => {
-    const photo = item.photo;
+    await Promise.all(
+    galerie.photos.map(async (item) => {
+      const photo = item.photo;
 
-    const li = document.createElement("li");
-    li.className = "gallery-item";
-    li.dataset.photoId = ""+photo.id;
+      const li = document.createElement("li");
+      li.className = "gallery-item";
+      li.dataset.photoId = String(photo.id);
 
-    const img = document.createElement("img");
-    img.src = API_IMAGE + photo.thumbnail.href;
-    img.alt = photo.titre;
+      const img = document.createElement("img");
+      img.className = "images";
+      img.src = API_IMAGE + photo.thumbnail.href;
+      img.alt = photo.titre;
 
-    li.append(img);
-    list.appendChild(li);
-  });
+     
+
+      img.addEventListener("click", async () => {
+        const resphoto = await loadPicture(photo.id);
+        displayPicture(resphoto);
+        displayCateg(resphoto);
+        displayComment(resphoto);
+      });
+
+      li.append(img);
+      list.appendChild(li);
+    })
+  );
 
   container.appendChild(list);
 }
