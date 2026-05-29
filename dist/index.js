@@ -5839,8 +5839,8 @@
   }
   function setPhoto(rep) {
     currentPhoto = rep;
-    currentIndex = currentGalerie?.photos.findIndex((galerie) => galerie.photo.id === rep.photo.id) ?? 0;
     currentGalerie = getCurrentGallery();
+    currentIndex = currentGalerie?.photos.findIndex((galerie) => galerie.photo.id === rep.photo.id) ?? 0;
     updateButtons();
   }
   function updateButtons() {

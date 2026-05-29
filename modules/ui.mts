@@ -124,8 +124,8 @@ export function setPhoto(rep: reponsePhoto) {
     // On set tous les attributs importants
 
     currentPhoto = rep;
-    currentIndex = currentGalerie?.photos.findIndex((galerie) => galerie.photo.id === rep.photo.id) ?? 0;
     currentGalerie = getCurrentGallery();
+    currentIndex = currentGalerie?.photos.findIndex((galerie) => galerie.photo.id === rep.photo.id) ?? 0;
     updateButtons();
 }
 
