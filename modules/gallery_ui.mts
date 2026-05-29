@@ -1,6 +1,6 @@
-import { API_IMAGE, reponsePhoto, reponsePhotos } from "./config.mts";
+import { API_IMAGE, Photo, reponsePhoto, reponsePhotos } from "./config.mts";
 import { loadPicture } from "./photoloeader.mts";
-import { displayCateg, displayComment, displayPicture } from "./ui.mts";
+import { displayCateg, displayComment, displayPicture, openLightbox, setPhoto } from "./ui.mts";
 
 export async function display_galerie(galerie: reponsePhotos) {
   const container = document.getElementById("gallery");
@@ -31,9 +31,8 @@ export async function display_galerie(galerie: reponsePhotos) {
 
       img.addEventListener("click", async () => {
         const resphoto = await loadPicture(photo.id);
-        displayPicture(resphoto);
-        displayCateg(resphoto);
-        displayComment(resphoto);
+        setPhoto(resphoto);
+        openLightbox();
       });
 
       li.append(img);

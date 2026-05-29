@@ -5790,46 +5790,28 @@
 
   // modules/ui.mts
   var import_handlebars = __toESM(require_handlebars(), 1);
-  var currentData = {};
-  function updateHTML() {
-    const template1 = document.getElementById("photoTemplate")?.innerHTML;
-    if (!template1 || template1 === void 0) {
+  var currentPhoto = null;
+  var lightbox;
+  var img;
+  var title;
+  function init() {
+    lightbox = document.getElementById("lightbox");
+    img = document.getElementById("lightbox-img");
+    title = document.getElementById("lb-title");
+  }
+  function openLightbox() {
+    init();
+    if (currentPhoto === null) {
       return;
     }
-    const template1Final = import_handlebars.default.compile(template1);
-    let mainSection = document.getElementById("photo");
-    if (mainSection) {
-      mainSection.innerHTML = template1Final(currentData);
-    }
+    const photo = currentPhoto.photo;
+    console.log(API_IMAGE + currentPhoto.photo.url.href);
+    img.src = API_IMAGE + photo.url.href;
+    title.textContent = photo.titre;
+    lightbox.classList.remove("hidden");
   }
-  async function displayPicture(repPhoto) {
-    const photo = repPhoto?.photo;
-    if (!photo) {
-      console.error(`Photo introuvable.`);
-      return;
-    }
-    currentData = {
-      ...currentData,
-      id: photo.id,
-      url: API_IMAGE + photo.url.href,
-      width: photo.width,
-      height: photo.height,
-      titre: photo.titre,
-      descr: photo.descr,
-      format: photo.format,
-      size: photo.size
-    };
-    updateHTML();
-  }
-  async function displayCateg(repPhoto) {
-    const categ = await loadResource(API_LOW + repPhoto.links.categorie.href);
-    currentData.categorie = categ.categorie;
-    updateHTML();
-  }
-  async function displayComment(repPhoto) {
-    const comment = await loadResource(API_LOW + repPhoto.links.comments.href);
-    currentData.comments = comment.comments;
-    updateHTML();
+  function setPhoto(rep) {
+    currentPhoto = rep;
   }
 
   // modules/gallery_ui.mts
@@ -5848,17 +5830,16 @@
         const li = document.createElement("li");
         li.className = "gallery-item";
         li.dataset.photoId = String(photo.id);
-        const img = document.createElement("img");
-        img.className = "images";
-        img.src = API_IMAGE + photo.thumbnail.href;
-        img.alt = photo.titre;
-        img.addEventListener("click", async () => {
+        const img2 = document.createElement("img");
+        img2.className = "images";
+        img2.src = API_IMAGE + photo.thumbnail.href;
+        img2.alt = photo.titre;
+        img2.addEventListener("click", async () => {
           const resphoto = await loadPicture(photo.id);
-          displayPicture(resphoto);
-          displayCateg(resphoto);
-          displayComment(resphoto);
+          setPhoto(resphoto);
+          openLightbox();
         });
-        li.append(img);
+        li.append(img2);
         list.appendChild(li);
       })
     );

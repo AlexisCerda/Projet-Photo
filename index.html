@@ -21,39 +21,16 @@
     <section id="gallery" aria-live="polite"></section>
   </main>
 
+  <div id="lightbox" class="hidden">
+  <h1 id="lb-title"></h1>
 
-  <main id="photo"></main>
-  
+  <button id="close">close</button>
+  <button id="prev">prev</button>
 
-  <script id="photoTemplate" type="text/x-handlebars-template">
-    <h1>Photo : {{id}}</h1>
-    <section id="la_photo">
-      <img src="{{url}}" alt="{{titre}}">
-      <h4>{{titre}}</h4>
-      <p>{{descr}}</p>
-      <p>{{format}}, {{width}} x {{height}}</p>
-      <h4 id="la_categorie">
-        Catégorie :
-        {{categorie.nom}}
-      </h4>
-      <p>{{categorie.descr}}</p>
+  <img id="lightbox-img">
 
-      <h4>Commentaires :</h4>
-
-      <ul id="les_commentaires">
-        {{#each comments}}
-          <li>
-            <strong>{{pseudo}}</strong> :
-            {{content}}
-          </li>
-        {{else}}
-          <li>Aucun commentaire</li>
-        {{/each}}
-      </ul>
-    </section>
-  </script>
-  <script src="https://unpkg.com/handlebars@latest/dist/handlebars.min.js"></script>
-
+  <button id="next">next</button>
+  </div>
 
   <script src="dist/index.js" defer></script>
 

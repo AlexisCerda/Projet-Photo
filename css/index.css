@@ -18,3 +18,35 @@ img {
 .gallery-item {
     aspect-ratio: 16 / 9;
 }
+
+
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.hidden {
+  display: none;
+}
+
+#lightbox img {
+  max-width: 80%;
+  max-height: 80%;
+}
+
+#close, #prev, #next {
+  position: absolute;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+  user-select: none;
+}
+
+#close { top: 20px; right: 30px; }
+#prev { left: 30px; top: 50%; transform: translateY(-50%); }
+#next { right: 30px; top: 50%; transform: translateY(-50%); }
