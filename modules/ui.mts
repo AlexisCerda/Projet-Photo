@@ -15,6 +15,7 @@ let currentGalerie: reponsePhotos | null = null;
 let lightbox!: HTMLElement;
 let img!: HTMLImageElement;
 let title!: HTMLElement;
+let loader!: HTMLElement;
 
 // Boutons de la lighBox
 
@@ -36,6 +37,7 @@ function init() {
     lightbox = document.getElementById("lightbox")!;
     img = document.getElementById("lightbox-img") as HTMLImageElement;
     title = document.getElementById("lb-title")!;
+    loader = document.getElementById("lb-loader")!;
 }
 
 function updateHTML() {
@@ -79,6 +81,13 @@ export function openLightbox() {
     // On récupère la photo courante 
     const photo = currentPhoto.photo;
     console.log(API_IMAGE + currentPhoto.photo.url.href);
+
+    // Loader le temps que la photo charge
+    showLoader();
+    img.onload = hideLoader;
+    img.onerror = hideLoader;
+
+
     img.src = API_IMAGE + photo.url.href;
     title.textContent = photo.titre;
 
@@ -141,9 +150,28 @@ function updateButtons() {
 
 function refreshLightbox() {
     if (currentPhoto !== null) {
+
+        // Afficher loader
+        showLoader();
+
+        // Enlever loader
+        img.onload = hideLoader;
+        img.onerror = hideLoader;
         img.src = API_IMAGE + currentPhoto.photo.url.href;
         title.textContent = currentPhoto.photo.titre;
     }
+}
+
+// Fonctions poour ajouter un loader 
+
+function showLoader() {
+    img.classList.add("hidden");
+    loader.classList.remove("hidden");
+}
+
+function hideLoader() {
+    loader.classList.add("hidden");
+    img.classList.remove("hidden");
 }
 
 // Fonctions maintenant inutiles

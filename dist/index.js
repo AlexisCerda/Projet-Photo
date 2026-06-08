@@ -5796,6 +5796,7 @@
   var lightbox;
   var img;
   var title;
+  var loader;
   var nextButton = document.getElementById("next");
   var prevButton = document.getElementById("prev");
   var closeButton = document.getElementById("close");
@@ -5806,6 +5807,7 @@
     lightbox = document.getElementById("lightbox");
     img = document.getElementById("lightbox-img");
     title = document.getElementById("lb-title");
+    loader = document.getElementById("lb-loader");
   }
   function openLightbox() {
     init();
@@ -5814,6 +5816,9 @@
     }
     const photo = currentPhoto.photo;
     console.log(API_IMAGE + currentPhoto.photo.url.href);
+    showLoader();
+    img.onload = hideLoader;
+    img.onerror = hideLoader;
     img.src = API_IMAGE + photo.url.href;
     title.textContent = photo.titre;
     lightbox.classList.remove("hidden");
@@ -5851,9 +5856,20 @@
   }
   function refreshLightbox() {
     if (currentPhoto !== null) {
+      showLoader();
+      img.onload = hideLoader;
+      img.onerror = hideLoader;
       img.src = API_IMAGE + currentPhoto.photo.url.href;
       title.textContent = currentPhoto.photo.titre;
     }
+  }
+  function showLoader() {
+    img.classList.add("hidden");
+    loader.classList.remove("hidden");
+  }
+  function hideLoader() {
+    loader.classList.add("hidden");
+    img.classList.remove("hidden");
   }
 
   // modules/gallery_ui.mts
