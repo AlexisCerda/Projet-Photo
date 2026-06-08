@@ -30,9 +30,9 @@ Application web de galerie photo consommant une API REST distante, développée 
 
 #### Lightbox
 - Clic sur une miniature → ouverture d'une lightbox plein écran
-- Affichage de la photo en haute résolution avec son titre
-- Boutons de navigation entre les photos de la galerie actuellement choisie.
+- Affichage de la photo en haute résolution avec son titre Boutons de navigation entre les photos de la galerie actuellement choisie.
 - Les boutons se masquent automatiquement en début et en fin de galerie
+- Loader au chargement de l'image
 
 
 
